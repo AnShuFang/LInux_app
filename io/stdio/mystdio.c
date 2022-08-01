@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define SIZE 12
+#define SIZE 1024
 int main(int argc, char* argv[])
 {
 #if 0  //本段测试fopen fclose fgetc fputc相关功能
@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
 	int a = atoi(buf);
 	printf("%d\n", a);
 #endif
-
+#if 1
 	FILE* fp1;
 	fp1 = fopen(argv[1], "r");
 	if (NULL == fp1)
@@ -132,6 +132,31 @@ int main(int argc, char* argv[])
 	}
 	fseek(fp1, 0, SEEK_END);
 	printf("%ld\n", ftell(fp1));
-
+#endif
+#if 0
+	if (argc < 2)
+	{
+		fprintf(stderr, "argv err:\n");
+		exit(1);
+	}
+	FILE* fp1;
+	char* buf=NULL; //此两行特别重要，getline根据初始值判断是要申请空间还是扩展
+	size_t n=0;
+	fp1 = fopen(argv[1], "r");
+	if (NULL == fp1)
+	{
+		perror("fopen1:");
+		exit(1);
+	}
+	while (1)
+	{
+		if (getline(&buf, &n, fp1) < 0) //getline没有可逆的操作，申请的空间没有释放
+			break;
+		printf("%ld\n", strlen(buf));
+		printf("%s\n", buf);
+	}
+	//free(buf);
+	fclose(fp1);
+#endif
 	return 0;
 }

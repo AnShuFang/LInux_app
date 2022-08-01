@@ -13,7 +13,7 @@
 * 输入：文件名  行数
 * 输出 0:successful  -1:faild
 */
-int del_file(const char* name, int n)
+/*int del_file(const char* name, int n)
 {
 	int buf[20];
 	memset(buf, 0, sizeof(buf)); //设置缓冲区，并清空
@@ -79,10 +79,12 @@ int del_file(const char* name, int n)
 	off_t off1 = lseek(fd1, 1, SEEK_CUR);//将其指向第11行的开始
 
 	return 0;
-}
+}*/
 #define MAXSIZE 10
+#define FILE  "/tmp/out"
 int main(int argc, char* argv[])
 {
+#if 0
 	char buf[MAXSIZE];
 	int len = 0;
 	int ret = 0;
@@ -135,5 +137,23 @@ int main(int argc, char* argv[])
 	
 	close(fd1);
 	close(fd2);
+#endif
+	int fd;
+	close(1);
+	fd = open(FILE, O_WRONLY | O_CREAT | O_TRUNC,0666);
+	if (open < 0)
+	{
+		perror("open:");
+		exit(1);
+	}
+	//dup2(fd, 1);
+	//close(1);
+	//dup(fd);
+	if (fd != 1)
+	{
+		close(fd);
+	}
+	//puts("hello!");
+
 	return 0;
 }
